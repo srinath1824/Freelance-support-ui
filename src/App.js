@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
-import Header from "./components/Header";
-import Dashboard from "./components/Dashboard";
-import ClientDetails from "./components/ClientDetails";
-import DeveloperDetails from "./components/DeveloperDetails";
+import Header from "./components/Header/Header";
+import Dashboard from "./components/Dashboard/Dashboard";
+import ClientDetails from "./components/Client/ClientDetails";
+import DeveloperDetails from "./components/Developer/DeveloperDetails";
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tab from '@material-ui/core/Tab';

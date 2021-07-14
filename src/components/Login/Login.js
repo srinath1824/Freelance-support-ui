@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function Copyright() {
   return (
@@ -50,6 +53,36 @@ function SignIn({ setLogged }) {
   const classes = useStyles();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [remember, setRemember] = useState(false);
+
+  useEffect(() => {
+    const loggedIn = getCookie("authToken");
+    // Validate token with API
+    if(loggedIn) {
+      setLogged(true);
+    }
+  }, [])
+
+  const setCookie = (name,value,days) => {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+  }
+  const getCookie = (name) => {
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(';');
+      for(var i=0;i < ca.length;i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+      }
+      return null;
+  }
 
   const handleUserNameChange = (e) => {
     setUserName(e.target.value)
@@ -60,13 +93,32 @@ function SignIn({ setLogged }) {
 };
 
 const handleSignIn = () => {
-    if(userName === "test" && password === "test") {
-        setLogged(true)
-    }
+  setLoading(true);
+    axios.post('http://localhost:4000/api/auth/login', {"username": userName, "password": password})
+      .then(res => {
+        if(res.status === 200) {
+          setLoading(false);
+          setLogged(true);
+          if(remember) {
+            setCookie("authToken", res.data['x-auth-token'], 1)
+          }
+        }
+      }).catch(err => {
+        console.log('ERROR', err);
+        setLoading(false);
+      })
+}
+
+const handleRememberMe = () => {
+  setRemember(!remember);
 }
 
   return (
     <Container component="main" maxWidth="xs">
+      { loading ?  <Backdrop className={classes.backdrop} open={loading}>
+                      <CircularProgress color="inherit" />
+                    </Backdrop> :
+      <>
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -101,7 +153,7 @@ const handleSignIn = () => {
             onChange={handlePasswordChange}
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
+            control={<Checkbox onChange={handleRememberMe} value="remember" color="primary" />}
             label="Remember me"
           />
           <Button
@@ -131,6 +183,8 @@ const handleSignIn = () => {
       <Box mt={8}>
         <Copyright />
       </Box>
+      </>
+    }
     </Container>
   );
 }
