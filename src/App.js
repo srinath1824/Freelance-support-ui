@@ -4,6 +4,7 @@ import Header from "./components/Header/Header";
 import Dashboard from "./components/Dashboard/Dashboard";
 import ClientDetails from "./components/Client/ClientDetails";
 import DeveloperDetails from "./components/Developer/DeveloperDetails";
+import ProjectMapping from "./components/ProjectMapping/ProjectMapping";
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tab from '@material-ui/core/Tab';
@@ -48,13 +49,15 @@ function App() {
             <Tab label="Dashboard" value="1" />
             <Tab label="Client Details" value="2" />
             <Tab label="Developer Details" value="3" />
-            <Tab label="Payment Details" value="4" />
+            <Tab label="Project Mapping" value="4" />
+            <Tab label="Payment Details" value="5" />
           </TabList>
         </AppBar>
         <TabPanel value="1"><Dashboard /></TabPanel>
         <TabPanel value="2"><ClientDetails /></TabPanel>
         <TabPanel value="3"><DeveloperDetails /></TabPanel>
-        <TabPanel value="4">Payment Details</TabPanel>
+        <TabPanel value="4"><ProjectMapping /></TabPanel>
+        <TabPanel value="5">Payment Details</TabPanel>
       </TabContext>
     </div>
     </>
