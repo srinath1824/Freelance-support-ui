@@ -12,6 +12,8 @@ import Paper from "@material-ui/core/Paper";
 import DeveloperDetailsDialog from "./DeveloperDetaisDialog";
 import axios from "axios";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,6 +47,9 @@ const useStyles = makeStyles((theme) => ({
       cursor: "pointer",
     },
   },
+  backdrop: {
+    backgroundColor: "#deebe8",
+  }
 }));
 
 function DeveloperDetails() {
@@ -150,6 +155,12 @@ function DeveloperDetails() {
 
   return (
     <>
+    {loading ? (
+        <Backdrop className={classes.backdrop} open={loading}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+    ) :
+    <>
       <div className={classes.root}>
         <Fab color="primary" variant="extended" onClick={handleClickOpen}>
           <AddIcon className={classes.extendedIcon} />
@@ -186,16 +197,17 @@ function DeveloperDetails() {
                   <TableCell
                     style={{
                       color: row.status === "Active" ? "darkgreen" : "red",
-                      display: "flex"
+                      // display: "flex"
+                      fontWeight: "bold"
                     }}
                   >
-                    <FiberManualRecordIcon
+                    {/* <FiberManualRecordIcon
                           fontSize="small"
                           style={{
                             color:
                               row.status === "Active" ? "darkgreen" : "red",
                           }}
-                        ></FiberManualRecordIcon>
+                        ></FiberManualRecordIcon> */}
                         <span style={{ marginLeft: "5px" }}>{row.status}</span>
                   </TableCell>
                 </TableRow>
@@ -213,6 +225,8 @@ function DeveloperDetails() {
         showDelete={showDelete}
         getDeveloperDetails={getDeveloperDetails}
       />
+      </>
+      }
     </>
   );
 }

@@ -13,7 +13,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { getClientDetailsApi, getDeveloperDetailsApi, clientDeveloperMapping } from "../ApiCalls";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { getClientDetailsApi, getDeveloperDetailsApi, clientDeveloperMapping, clientDeveloperUnmapping } from "../ApiCalls";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,6 +34,18 @@ const useStyles = makeStyles((theme) => ({
   extendedIcon: {
     marginRight: theme.spacing(1),
   },
+  button: {
+    margin: "0.5rem"
+  },
+  title: {
+    marginLeft: "12px"
+  },
+  tableHeading: {
+    textAlign: "center"
+  },
+  backdrop: {
+    backgroundColor: "#deebe8",
+  }
 }));
 
 function ProjectMapping() {
@@ -40,9 +54,13 @@ function ProjectMapping() {
   const [developerDetails, setDeveloperDetails] = useState([]);
   const [clientId, setClientId] = useState("");
   const [developerId, setDeveloperId] = useState("");
+  const [unassignClientId, setUnassignClientId] = useState("");
+  const [unassignDeveloperId, setUnassignDeveloperId] = useState("");
   const [mappingDetails, setMappingDetails] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     Promise.allSettled([getClientDetailsApi(), getDeveloperDetailsApi()])
       .then((res) => {
         res.map((response) => {
@@ -52,8 +70,12 @@ function ProjectMapping() {
             setDeveloperDetails(response.value.data);
           }
         });
+        setLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setLoading(false);
+        console.log(err)
+      });
   }, []);
 
   useEffect(() => {
@@ -66,10 +88,17 @@ function ProjectMapping() {
             clientDetails.map(clientData => {
                 let mappingDeveloper = developerDetails.find(data => data._id === clientData.developerId);
                 if(mappingDeveloper) {
-                    mapping.push({clientName: clientData.clientName, developerName: mappingDeveloper.developerName, technology: clientData.technology})
+                    mapping.push(
+                      { 
+                        clientName: clientData.clientName, 
+                        developerName: mappingDeveloper.developerName, 
+                        technology: clientData.technology,
+                        clientId: clientData._id,
+                        developerId: clientData.developerId
+                      }
+                    )
                 }
             });
-        console.log('8888888', mapping)
         setMappingDetails(mapping);
     }
   }
@@ -79,6 +108,33 @@ function ProjectMapping() {
         setClientId(e.target.value)
     } else if (val === 'developer') {
         setDeveloperId(e.target.value)
+    }
+  }
+
+  const handleUnassignSelectChange = (e, val) => {
+    if(val === 'client') {
+      setUnassignClientId(e.target.value)
+    } else if (val === 'developer') {
+      setUnassignDeveloperId(e.target.value)
+    }
+  }
+
+  const handleUnassign = () => {
+    if(unassignClientId && unassignDeveloperId) {
+        const promise = clientDeveloperUnmapping({ clientId: unassignClientId });
+        promise.then(res => {
+            let cid = res.data[0]['_id'];
+            let clientIndex = mappingDetails.findIndex(data => data.clientId === cid);
+            let clientMappingDetails = [...mappingDetails];
+            clientMappingDetails.splice(clientIndex, 1);
+            setMappingDetails(clientMappingDetails);
+            setUnassignClientId("");
+            setUnassignDeveloperId("");
+        }).catch(err => {
+          setUnassignClientId("");
+          setUnassignDeveloperId("");
+          console.log(err)
+        })
     }
   }
 
@@ -92,18 +148,42 @@ function ProjectMapping() {
             let developer = developerDetails.find(data => data._id === did);
             setMappingDetails([
                 ...mappingDetails,
-                {clientName: client.clientName, developerName: developer.developerName, technology: client.technology}
+                {
+                  clientName: client.clientName, 
+                  developerName: developer.developerName, 
+                  technology: client.technology,
+                  clientId: client._id,
+                  developerId: developer._id
+                }
             ]);
-        }).catch(err => console.log(err))
+            setClientId("");
+            setDeveloperId("");
+        }).catch(err => {
+          setClientId("");
+          setDeveloperId("");
+          console.log(err)
+        })
     }
+  };
+
+  const handleDisableButton = (clientId, developerId) => {
+    if(clientId && developerId) {
+      return false
+    } return true
   }
-console.log(mappingDetails);
+
   return (
     <div>
+      {loading ? (
+        <Backdrop className={classes.backdrop} open={loading}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+    ) :
       <Grid container spacing={3}>
-        <Grid item xs={6}>
-          <Grid container spacing={4}>
-            <Grid item xs={6}>
+        <Grid item xs={3}>
+          <h3 className={classes.title}>Assign Developer to Client</h3>
+          <Grid container>
+            <Grid item xs={12}>
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel id="demo-simple-select-outlined-label">
                   Select Client
@@ -127,7 +207,7 @@ console.log(mappingDetails);
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel id="demo-simple-select-outlined-label">
                   Select Developer
@@ -152,21 +232,12 @@ console.log(mappingDetails);
               </FormControl>
             </Grid>
           </Grid>
-          {/* <Grid container>
-            <Grid item xs={4}></Grid>
-            <Grid item xs={4} style={{textAlign: "center"}}>
-              <Button variant="contained" color="primary">
-                Assign
-              </Button>
-            </Grid>
-            <Grid item xs={4}></Grid>
-          </Grid> */}
-            <Button onClick={handleAssign} variant="contained" color="primary">
+            <Button className={classes.button} onClick={handleAssign} disabled={handleDisableButton(clientId, developerId)} variant="contained" color="primary">
                 Assign
             </Button>
         </Grid>
-        <Grid item xs={2}></Grid>
-        <Grid item xs={4}>
+        <Grid item xs={6}>
+          <h2 className={classes.tableHeading}>Client-Developer Project Mapping</h2>
         <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
             <TableHead className={classes.tableHeading}>
@@ -189,7 +260,64 @@ console.log(mappingDetails);
         </Table>
         </TableContainer>
         </Grid>
+        <Grid item xs={3}>
+          <h3 className={classes.title}>Un-Assign Developer to Client</h3>
+          <Grid container>
+            <Grid item xs={12}>
+              <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel>
+                  Select Client
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="unassign-clientid"
+                  name="status"
+                  // defaultValue={status}
+                  label="Select Client"
+                  onChange={(e) => handleUnassignSelectChange(e, 'client')}
+                  // error={error.status}
+                >
+                  {mappingDetails.map((data) => {
+                    return (
+                      <MenuItem value={data.clientId}>
+                        {data.clientName}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel>
+                  Select Developer
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="unassigned-developerid"
+                  name="status"
+                  // defaultValue={status}
+                  label="Select Developer"
+                  onChange={(e) => handleUnassignSelectChange(e, 'developer')}
+                  // error={error.status}
+                >
+                  {mappingDetails.map((data) => {
+                    return (
+                      <MenuItem value={data.developerId}>
+                        {data.developerName}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+          <Button className={classes.button} onClick={handleUnassign} disabled={handleDisableButton(unassignClientId, unassignDeveloperId)} variant="contained" color="secondary">
+                Un-Assign
+            </Button>
+        </Grid>
       </Grid>
+    }
     </div>
   );
 }

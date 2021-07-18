@@ -154,16 +154,17 @@ function ClientDetails() {
                       <TableCell
                         style={{
                           color: row.status === "Active" ? "darkgreen" : "red",
-                          display: "flex",
+                          fontWeight: "bold"
+                          // display: "flex",
                         }}
                       >
-                        <FiberManualRecordIcon
+                        {/* <FiberManualRecordIcon
                           fontSize="small"
                           style={{
                             color:
                               row.status === "Active" ? "darkgreen" : "red",
                           }}
-                        ></FiberManualRecordIcon>
+                        ></FiberManualRecordIcon> */}
                         <span style={{ marginLeft: "5px" }}>{row.status}</span>
                       </TableCell>
                     </TableRow>

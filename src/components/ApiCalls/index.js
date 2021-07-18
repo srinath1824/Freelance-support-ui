@@ -40,8 +40,19 @@ const clientDeveloperMapping = (request) => {
     return promise;
 }
 
+const clientDeveloperUnmapping = (request) => {
+  const promise = new Promise((resolve, reject) => {
+  axios.post("http://localhost:4000/api/fs/client/clientDeveloperUnmapping", request)
+    .then((res) => {
+      resolve(res)
+  }).catch(err => reject(err));
+  });
+  return promise;
+}
+
 export {
     getClientDetailsApi,
     getDeveloperDetailsApi,
-    clientDeveloperMapping
+    clientDeveloperMapping,
+    clientDeveloperUnmapping
 };
