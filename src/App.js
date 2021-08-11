@@ -12,24 +12,26 @@ import TabContext from '@material-ui/lab/TabContext';
 import TabList from '@material-ui/lab/TabList';
 import TabPanel from '@material-ui/lab/TabPanel';
 import Login from "./components/Login/Login"
+import PaymentDashboard from "./components/PaymentDetails/PaymentDashboard";
+import TransactionDetails from "./components/PaymentDetails/TransactionDetails";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     // padding: 10,
-    height: '93vh',
+    height: "93vh",
     // backgroundColor: '#282c34',
-    overflow: 'scroll'
+    overflow: "scroll",
   },
   appBar: {
-    backgroundColor: '#2596be'
-  }
+    backgroundColor: "#2596be",
+  },
 }));
 
 function App() {
   const classes = useStyles();
-  const [value, setValue] = React.useState('1');
-  const [logged, setLogged] = React.useState(false)
+  const [value, setValue] = React.useState("1");
+  const [logged, setLogged] = React.useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -37,31 +39,48 @@ function App() {
 
   return (
     <>
-    { !logged ?
-    <Login setLogged={setLogged}/>
-    :
-    <>
-    <Header />
-    <div className={classes.root}>
-      <TabContext value={value}>
-        <AppBar className={classes.appBar} position="static">
-          <TabList onChange={handleChange} aria-label="simple tabs example">
-            <Tab label="Dashboard" value="1" />
-            <Tab label="Client Details" value="2" />
-            <Tab label="Developer Details" value="3" />
-            <Tab label="Project Mapping" value="4" />
-            <Tab label="Payment Details" value="5" />
-          </TabList>
-        </AppBar>
-        <TabPanel value="1"><Dashboard /></TabPanel>
-        <TabPanel value="2"><ClientDetails /></TabPanel>
-        <TabPanel value="3"><DeveloperDetails /></TabPanel>
-        <TabPanel value="4"><ProjectMapping /></TabPanel>
-        <TabPanel value="5">Payment Details</TabPanel>
-      </TabContext>
-    </div>
-    </>
-    }
+      {!logged ? (
+        <Login setLogged={setLogged} />
+      ) : (
+        <>
+          <Header />
+          <div className={classes.root}>
+            <TabContext value={value}>
+              <AppBar className={classes.appBar} position="static">
+                <TabList
+                  onChange={handleChange}
+                  aria-label="simple tabs example"
+                >
+                  <Tab label="Dashboard" value="1" />
+                  <Tab label="Client Details" value="2" />
+                  <Tab label="Developer Details" value="3" />
+                  <Tab label="Project Mapping" value="4" />
+                  <Tab label="Payments" value="5" />
+                  <Tab label="Transcation Details" value="6" />
+                </TabList>
+              </AppBar>
+              <TabPanel value="1">
+                <Dashboard />
+              </TabPanel>
+              <TabPanel value="2">
+                <ClientDetails />
+              </TabPanel>
+              <TabPanel value="3">
+                <DeveloperDetails />
+              </TabPanel>
+              <TabPanel value="4">
+                <ProjectMapping />
+              </TabPanel>
+              <TabPanel value="5">
+                <PaymentDashboard />
+              </TabPanel>
+              <TabPanel value="6">
+                <TransactionDetails />
+              </TabPanel>
+            </TabContext>
+          </div>
+        </>
+      )}
     </>
   );
 }
