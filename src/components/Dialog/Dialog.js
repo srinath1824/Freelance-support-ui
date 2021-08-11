@@ -6,17 +6,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
+import DateFormat from "../DateFormat/dateFormt";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function DialogAlert({ title, showDialog }) {
+function DialogAlert({ title, ...props }) {
   const [open, setOpen] = React.useState(true);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -33,11 +30,15 @@ function DialogAlert({ title, showDialog }) {
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle id="alert-dialog-slide-title">{title}</DialogTitle>
-        <DialogContent>
-          {/* <DialogContentText id="alert-dialog-slide-description">
-            Let Google help apps determine location. This means sending anonymous location data to
-            Google, even when no apps are running.
-          </DialogContentText> */}
+        <DialogContent dividers>
+          <DialogContentText>Do You Want To Submit:</DialogContentText>
+          <DialogTitle>Profile: {props.profile}</DialogTitle>
+          <DialogTitle>amount: {props.amount}</DialogTitle>
+          <DialogTitle>
+            paymentDate: {DateFormat(props.paymentDate)}
+          </DialogTitle>
+          <DialogTitle>accountHolder: {props.accountHolder}</DialogTitle>
+          <DialogTitle>paidForMonth: {props.paidForMonth}</DialogTitle>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { useState, useEffect, FunctionComponent } from "react";
 import {
   LineChart,
   Line,
@@ -7,46 +7,9 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  LabelList
+  LabelList,
 } from "recharts";
-
-const data = [
-  {
-    name: "Jan 21",
-    saving: 4000,
-    earning: 2400,
-  },
-  {
-    name: "Feb 21",
-    saving: 3000,
-    earning: 1398,
-  },
-  {
-    name: "Mar 21",
-    saving: 2000,
-    earning: 9800,
-  },
-  {
-    name: "Apr 21",
-    saving: 2780,
-    earning: 3908,
-  },
-  {
-    name: "May 21",
-    saving: 1890,
-    earning: 4800,
-  },
-  {
-    name: "Jun 21",
-    saving: 2390,
-    earning: 3800,
-  },
-  {
-    name: "July 21",
-    saving: 3490,
-    earning: 4300,
-  }
-];
+import axios from "axios";
 
 const CustomizedLabel = (props) => {
   const { x, y, stroke, value } = props;
@@ -78,6 +41,15 @@ const CustomizedAxisTick = (props) => {
 };
 
 export default function DashboardChart() {
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/api/fs/paymentdetails/getPaymentDetails")
+      .then((res) => {
+        setData(res.data);
+      });
+  }, []);
   return (
     <LineChart
       width={800}
@@ -87,7 +59,7 @@ export default function DashboardChart() {
         top: 20,
         right: 30,
         left: 20,
-        bottom: 10
+        bottom: 10,
       }}
     >
       <CartesianGrid strokeDasharray="3 3" />

@@ -14,6 +14,7 @@ import axios from "axios";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import DateFormat from "../DateFormat/dateFormt";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
   backdrop: {
     backgroundColor: "#deebe8",
-  }
+  },
 }));
 
 function DeveloperDetails() {
@@ -131,77 +132,58 @@ function DeveloperDetails() {
     };
   }
 
-  // const DashboardData = [
-  //     {developer: "Srinath", technology: "Reactjs", started: "-", amount: "50000", experience: "5+" , company: "-", mobile: "-", status: "Blocked"},
-  //     {developer: "Zain", technology: "Reactjs", started: "14/05/2021", amount: "50000", experience: "5+" , company: "-", mobile: "-", status: "Active"},
-  //     {developer: "Sanjay", technology: "Angular", started: "14/05/2021", amount: "50000", experience: "5+" , company: "-", mobile: "-", status: "Active"},
-  //     {developer: "Sai Kiran", technology: "Reactjs", started: "14/05/2021", amount: "50000", experience: "5+" , company: "-", mobile: "-", status: "Active"},
-  //     {developer: "Sai", technology: "Reactjs", started: "24/01/2021", amount: "38000", experience: "5+" , company: "-", mobile: "-", status: "Blocked"},
-  //     {developer: "Santosh", technology: "Angular", started: "18/06/2021", amount: "30000", experience: "5+" , company: "-", mobile: "-", status: "Blocked"},
-  //     {developer: "Poorna", technology: "Reactjs", started: "07/07/2021", amount: "35000", experience: "5+" , company: "-", mobile: "-", status: "Blocked"},
-  //     {developer: "Manikanta", technology: "Angular", started: "09/07/2021", amount: "30000", experience: "5+" , company: "-", mobile: "-", status: "Blocked"},
-  //     {developer: "Hanzu", technology: "Reactjs", started: "09/07/2021", amount: "30000", experience: "5+" , company: "-", mobile: "-", status: "Blocked"},
-  //     {developer: "Rajeshwari", technology: "Reactjs, jQuery", started: "09/07/2021", amount: "30000", experience: "5+" , company: "-", mobile: "-", status: "Active"},
-  //     {developer: "Devendra", technology: "Python", started: "09/07/2021", amount: "-", experience: "3+" , company: "-", mobile: "-", status: "Active"},
-  //     {developer: "Barath Kumar", technology: "Reactjs", started: "09/07/2021", amount: "-", experience: "2+" , company: "IBM", mobile: "8185924429", status: "Active"},
-  //     {developer: "Sudheer", technology: "Angular", started: "09/07/2021", amount: "-", experience: "5+" , company: "-", mobile: "-", status: "Active"},
-  //     {developer: "Prasanth", technology: "Java", started: "09/07/2021", amount: "-", experience: "5+" , company: "GSTN", mobile: "-", status: "Active"},
-  //     {developer: "Prasanth", technology: "Java+Big Data", started: "09/07/2021", amount: "-", experience: "6+" , company: "Adaequare", mobile: "-", status: "Active"},
-  //     {developer: "Vara Prasad", technology: "React + Java", started: "09/07/2021", amount: "-", experience: "6+" , company: "-", mobile: "-", status: "Blocked"},
-  // ];
-
-  // const rows = DashboardData.map(data => createData(data.developer, data.technology, data.started, data.amount, data.experience, data.company, data.mobile, data.status))
-  // rows.sort((a, b) => a.status > b.status ? 1 : -1);
-
   return (
     <>
-    {loading ? (
+      {loading ? (
         <Backdrop className={classes.backdrop} open={loading}>
           <CircularProgress color="inherit" />
         </Backdrop>
-    ) :
-    <>
-      <div className={classes.root}>
-        <Fab color="primary" variant="extended" onClick={handleClickOpen}>
-          <AddIcon className={classes.extendedIcon} />
-          Add Developer
-        </Fab>
-        <TableContainer className={classes.tableContainer} component={Paper}>
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead className={classes.tableHeading}>
-              <TableRow>
-                <TableCell>Developer</TableCell>
-                <TableCell>Technology</TableCell>
-                <TableCell>Started</TableCell>
-                <TableCell>Amount&nbsp;(Rs.)</TableCell>
-                <TableCell>Experience</TableCell>
-                <TableCell>Company</TableCell>
-                <TableCell>Mobile</TableCell>
-                <TableCell>Status</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {developerDetailsData.map((row) => (
-                <TableRow
-                  key={row.name}
-                  className={classes.tableRow}
-                  onClick={() => handleRowClick(row)}
-                >
-                  <TableCell>{row.developerName}</TableCell>
-                  <TableCell>{row.technology}</TableCell>
-                  <TableCell>{row.started}</TableCell>
-                  <TableCell>{row.amount}</TableCell>
-                  <TableCell>{row.experience}</TableCell>
-                  <TableCell>{row.company}</TableCell>
-                  <TableCell>{row.mobile}</TableCell>
-                  <TableCell
-                    style={{
-                      color: row.status === "Active" ? "darkgreen" : "red",
-                      // display: "flex"
-                      fontWeight: "bold"
-                    }}
-                  >
-                    {/* <FiberManualRecordIcon
+      ) : (
+        <>
+          <div className={classes.root}>
+            <Fab color="primary" variant="extended" onClick={handleClickOpen}>
+              <AddIcon className={classes.extendedIcon} />
+              Add Developer
+            </Fab>
+            <TableContainer
+              className={classes.tableContainer}
+              component={Paper}
+            >
+              <Table className={classes.table} aria-label="simple table">
+                <TableHead className={classes.tableHeading}>
+                  <TableRow>
+                    <TableCell>Developer</TableCell>
+                    <TableCell>Technology</TableCell>
+                    <TableCell>Started</TableCell>
+                    <TableCell>Amount&nbsp;(Rs.)</TableCell>
+                    <TableCell>Experience</TableCell>
+                    <TableCell>Company</TableCell>
+                    <TableCell>Mobile</TableCell>
+                    <TableCell>Status</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {developerDetailsData.map((row) => (
+                    <TableRow
+                      key={row.name}
+                      className={classes.tableRow}
+                      onClick={() => handleRowClick(row)}
+                    >
+                      <TableCell>{row.developerName}</TableCell>
+                      <TableCell>{row.technology}</TableCell>
+                      <TableCell>{DateFormat(row.started)}</TableCell>
+                      <TableCell>{row.amount}</TableCell>
+                      <TableCell>{row.experience}</TableCell>
+                      <TableCell>{row.company}</TableCell>
+                      <TableCell>{row.mobile}</TableCell>
+                      <TableCell
+                        style={{
+                          color: row.status === "Active" ? "darkgreen" : "red",
+                          // display: "flex"
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {/* <FiberManualRecordIcon
                           fontSize="small"
                           style={{
                             color:
@@ -209,24 +191,24 @@ function DeveloperDetails() {
                           }}
                         ></FiberManualRecordIcon> */}
                         <span style={{ marginLeft: "5px" }}>{row.status}</span>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-      <DeveloperDetailsDialog
-        open={open}
-        handleClose={handleClose}
-        developerDetailsData={developerDetailsData}
-        setDeveloperDetailsData={setDeveloperDetailsData}
-        dialogDetails={dialogDetails}
-        showDelete={showDelete}
-        getDeveloperDetails={getDeveloperDetails}
-      />
-      </>
-      }
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+          <DeveloperDetailsDialog
+            open={open}
+            handleClose={handleClose}
+            developerDetailsData={developerDetailsData}
+            setDeveloperDetailsData={setDeveloperDetailsData}
+            dialogDetails={dialogDetails}
+            showDelete={showDelete}
+            getDeveloperDetails={getDeveloperDetails}
+          />
+        </>
+      )}
     </>
   );
 }

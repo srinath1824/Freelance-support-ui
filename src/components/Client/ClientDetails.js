@@ -14,6 +14,7 @@ import axios from "axios";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import DateFormat from "../DateFormat/dateFormt";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -105,17 +106,6 @@ function ClientDetails() {
     return { clientName, technology, started, amount, status, id };
   }
 
-  // const DashboardData = [
-  //   { client: "Bala", technology: "Reactjs", started: "14/05/2021", amount: "700", status: "Active" },
-  //   { client: "Niharika", technology: "Reactjs", started: "03/06/2021", amount: "600", status: "Active" },
-  //   { client: "Sanjana", technology: "Reactjs", started: "24/01/2021", amount: "650", status: "Active" },
-  //   { client: "Om Prakash", technology: "Angular", started: "18/06/2021", amount: "800", status: "Active" },
-  //   { client: "Mounika", technology: "Reactjs", started: "07/07/2021", amount: "700", status: "Active" },
-  //   { client: "Venkat", technology: "Angular", started: "09/07/2021", amount: "700", status: "Active" },
-  // ];
-
-  // const rows = DashboardData.map(data => createData(data.client, data.technology, data.started, data.amount, data.status))
-
   return (
     <>
       {loading ? (
@@ -136,7 +126,7 @@ function ClientDetails() {
                     <TableCell>Client</TableCell>
                     <TableCell>Technology</TableCell>
                     <TableCell>Started</TableCell>
-                    <TableCell>Amount&nbsp;($)</TableCell>
+                    <TableCell>Amount&nbsp;(Rs.)</TableCell>
                     <TableCell>Status</TableCell>
                   </TableRow>
                 </TableHead>
@@ -149,12 +139,12 @@ function ClientDetails() {
                     >
                       <TableCell>{row.clientName}</TableCell>
                       <TableCell>{row.technology}</TableCell>
-                      <TableCell>{row.started}</TableCell>
+                      <TableCell>{DateFormat(row.started)}</TableCell>
                       <TableCell>{row.amount}</TableCell>
                       <TableCell
                         style={{
                           color: row.status === "Active" ? "darkgreen" : "red",
-                          fontWeight: "bold"
+                          fontWeight: "bold",
                           // display: "flex",
                         }}
                       >
