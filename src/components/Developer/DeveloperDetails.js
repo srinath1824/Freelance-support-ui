@@ -15,6 +15,7 @@ import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DateFormat from "../DateFormat/dateFormt";
+require("dotenv").config();
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,7 +65,7 @@ function DeveloperDetails() {
   const getDeveloperDetails = () => {
     setLoading(true);
     axios
-      .get("http://localhost:4000/api/fs/developer/getDeveloperDetails")
+      .get(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/developer/getDeveloperDetails`)
       .then((res) => {
         setLoading(false);
         const rows = res.data.map((data) =>

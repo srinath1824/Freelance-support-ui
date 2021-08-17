@@ -15,6 +15,7 @@ import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
+require("dotenv").config();
 
 function Copyright() {
   return (
@@ -94,7 +95,7 @@ function SignIn({ setLogged }) {
 
 const handleSignIn = () => {
   setLoading(true);
-    axios.post('http://localhost:4000/api/auth/login', {"username": userName, "password": password})
+    axios.post(`https://${process.env.REACT_APP_SERVER_URL}/api/auth/login`, {"username": userName, "password": password})
       .then(res => {
         if(res.status === 200) {
           setLoading(false);

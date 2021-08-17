@@ -6,3 +6,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 npm install
 npm start
+
+.env
+REACT_APP_SERVER_URL = freelance-support-server.herokuapp.com

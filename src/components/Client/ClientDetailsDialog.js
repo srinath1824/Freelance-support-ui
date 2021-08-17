@@ -15,6 +15,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import axios from "axios";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
+require("dotenv").config();
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -96,7 +97,7 @@ function ClientDetailsDialog({
     if(valid) {
         setLoading(true);
         if(Object.keys(dialogDetails).length === 0) {
-        axios.post("http://localhost:4000/api/fs/client/createClientDetails", addClient)
+        axios.post(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/client/createClientDetails`, addClient)
             .then(res => {
                 setLoading(false);
                 setClientDetailsData([
@@ -110,7 +111,7 @@ function ClientDetailsDialog({
                 console.log(err);
             })
         } else {
-        axios.put(`http://localhost:4000/api/fs/client/updateClientDetails/${id}`, addClient)
+        axios.put(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/client/updateClientDetails/${id}`, addClient)
         .then(res => {
             setLoading(false);
             setClientDetailsData([
@@ -130,7 +131,7 @@ function ClientDetailsDialog({
   const handleDeleteClick = () => {
     setLoading(true);
     axios
-      .delete(`http://localhost:4000/api/fs/client/deleteClientDetails/${id}`)
+      .delete(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/client/deleteClientDetails/${id}`)
       .then((res) => {
         setLoading(false);
         const data = [...clientDetailsData];

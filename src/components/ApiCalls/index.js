@@ -1,8 +1,9 @@
 import axios from "axios";
+require("dotenv").config();
 
 const getClientDetailsApi = () => {
     const promise = new Promise((resolve, reject) => {
-    axios.get("http://localhost:4000/api/fs/client/getClientDetails")
+    axios.get(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/client/getClientDetails`)
       .then((res) => {
           let data = {
               data: res.data,
@@ -17,7 +18,7 @@ const getClientDetailsApi = () => {
 
 const getDeveloperDetailsApi = () => {
     const promise = new Promise((resolve, reject) => {
-    axios.get("http://localhost:4000/api/fs/developer/getDeveloperDetails")
+    axios.get(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/developer/getDeveloperDetails`)
       .then((res) => {
         let data = {
             data: res.data,
@@ -32,7 +33,7 @@ const getDeveloperDetailsApi = () => {
 
 const clientDeveloperMapping = (request) => {
     const promise = new Promise((resolve, reject) => {
-    axios.post("http://localhost:4000/api/fs/client/clientDeveloperMapping", request)
+    axios.post(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/client/clientDeveloperMapping`, request)
       .then((res) => {
         resolve(res)
     }).catch(err => reject(err));
@@ -42,7 +43,7 @@ const clientDeveloperMapping = (request) => {
 
 const clientDeveloperUnmapping = (request) => {
   const promise = new Promise((resolve, reject) => {
-  axios.post("http://localhost:4000/api/fs/client/clientDeveloperUnmapping", request)
+  axios.post(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/client/clientDeveloperUnmapping`, request)
     .then((res) => {
       resolve(res)
   }).catch(err => reject(err));

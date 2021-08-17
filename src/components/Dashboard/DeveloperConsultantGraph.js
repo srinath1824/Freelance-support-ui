@@ -9,6 +9,7 @@ import {
   Legend,
 } from "recharts";
 import axios from "axios";
+require("dotenv").config();
 
 function DeveloperConsultantGraph() {
   const [userData, setUserData] = useState();
@@ -16,7 +17,7 @@ function DeveloperConsultantGraph() {
   useEffect(() => {
     axios
       .get(
-        "http://localhost:4000/api/fs/paymentdetails/getClientDashboradDetails"
+        `https://${process.env.REACT_APP_SERVER_URL}/api/fs/paymentdetails/getClientDashboradDetails`
       )
       .then((res) => {
         setUserData(res.data);

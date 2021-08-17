@@ -12,6 +12,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import axios from "axios";
 import { getClientDetailsApi, getDeveloperDetailsApi } from "../ApiCalls";
 import Dialog from "../Dialog/Dialog";
+require("dotenv").config();
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -164,7 +165,7 @@ function PaymentDashboard() {
         if (user === "Client") {
           axios
             .put(
-              `http://localhost:4000/api/fs/client/clientPaymentDetails/${paymentId}`,
+              `https://${process.env.REACT_APP_SERVER_URL}/api/fs/client/clientPaymentDetails/${paymentId}`,
               details
             )
             .then((res) => {
@@ -181,7 +182,7 @@ function PaymentDashboard() {
         } else if (user === "Developer") {
           axios
             .put(
-              `http://localhost:4000/api/fs/developer/developerPaymentDetails/${paymentId}`,
+              `https://${process.env.REACT_APP_SERVER_URL}/api/fs/developer/developerPaymentDetails/${paymentId}`,
               details
             )
             .then((res) => {

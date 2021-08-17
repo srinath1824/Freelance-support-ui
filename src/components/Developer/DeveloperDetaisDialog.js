@@ -15,6 +15,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import axios from "axios";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
+require("dotenv").config();
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -106,7 +107,7 @@ function DeveloperDetaisDialog({
     if(valid) {
         setLoading(true);
         if(Object.keys(dialogDetails).length === 0) {
-        axios.post("http://localhost:4000/api/fs/developer/createDeveloperDetails", addDeveloper)
+        axios.post(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/developer/createDeveloperDetails`, addDeveloper)
             .then(res => {
                 setLoading(false);
                 setDeveloperDetailsData([
@@ -120,7 +121,7 @@ function DeveloperDetaisDialog({
                 console.log(err);
             })
         } else {
-        axios.put(`http://localhost:4000/api/fs/developer/updateDeveloperDetails/${id}`, addDeveloper)
+        axios.put(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/developer/updateDeveloperDetails/${id}`, addDeveloper)
         .then(res => {
             setLoading(false);
             setDeveloperDetailsData([
@@ -140,7 +141,7 @@ function DeveloperDetaisDialog({
   const handleDeleteClick = () => {
     setLoading(true);
     axios
-      .delete(`http://localhost:4000/api/fs/developer/deleteDeveloperDetails/${id}`)
+      .delete(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/developer/deleteDeveloperDetails/${id}`)
       .then((res) => {
         setLoading(false);
         const data = [...developerDetailsData];

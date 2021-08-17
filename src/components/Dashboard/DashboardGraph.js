@@ -10,6 +10,7 @@ import {
   LabelList,
 } from "recharts";
 import axios from "axios";
+require("dotenv").config();
 
 const CustomizedLabel = (props) => {
   const { x, y, stroke, value } = props;
@@ -45,7 +46,7 @@ export default function DashboardChart() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/fs/paymentdetails/getPaymentDetails")
+      .get(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/paymentdetails/getPaymentDetails`)
       .then((res) => {
         setData(res.data);
       });

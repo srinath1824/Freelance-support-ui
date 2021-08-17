@@ -12,6 +12,7 @@ import Graph from "./DashboardGraph";
 import DeveloperConsultantGraph from "./DeveloperConsultantGraph";
 import axios from "axios";
 import DateFormat from "../DateFormat/dateFormt";
+require("dotenv").config();
 
 const useStyles = makeStyles({
   table: {
@@ -29,7 +30,7 @@ export default function Dashboard() {
   useEffect(() => {
     axios
       .get(
-        "http://localhost:4000/api/fs/paymentdetails/getClientDashboradDetails"
+        `https://${process.env.REACT_APP_SERVER_URL}/api/fs/paymentdetails/getClientDashboradDetails`
       )
       .then((res) => {
         setUserTable(res.data);
