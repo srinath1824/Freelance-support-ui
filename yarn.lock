@@ -1168,17 +1168,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
-"@date-io/core@1.x", "@date-io/core@^1.3.13":
+"@date-io/core@1.x":
   version "1.3.13"
   resolved "http://artifactory.cdk.com/artifactory/api/npm/npm-repo/@date-io/core/-/core-1.3.13.tgz#90c71da493f20204b7a972929cc5c482d078b3fa"
   integrity sha1-kMcdpJPyAgS3qXKSnMXEgtB4s/o=
-
-"@date-io/date-fns@^1.3.13":
-  version "1.3.13"
-  resolved "http://artifactory.cdk.com/artifactory/api/npm/npm-repo/@date-io/date-fns/-/date-fns-1.3.13.tgz#7798844041640ab393f7e21a7769a65d672f4735"
-  integrity sha1-d5iEQEFkCrOT9+Iad2mmXWcvRzU=
-  dependencies:
-    "@date-io/core" "^1.3.13"
 
 "@emotion/hash@^0.8.0":
   version "0.8.0"
@@ -4229,11 +4222,6 @@ data-urls@^2.0.0:
     abab "^2.0.3"
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
-
-date-fns@^2.22.1:
-  version "2.23.0"
-  resolved "http://artifactory.cdk.com/artifactory/api/npm/npm-repo/date-fns/-/date-fns-2.23.0.tgz#4e886c941659af0cf7b30fafdd1eaa37e88788a9"
-  integrity sha1-TohslBZZrwz3sw+v3R6qN+iHiKk=
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.9:
   version "2.6.9"
