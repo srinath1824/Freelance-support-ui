@@ -95,19 +95,24 @@ function SignIn({ setLogged }) {
 
 const handleSignIn = () => {
   setLoading(true);
-    axios.post(`https://${process.env.REACT_APP_SERVER_URL}/api/auth/login`, {"username": userName, "password": password})
-      .then(res => {
-        if(res.status === 200) {
+    axios
+      .post(`${process.env.REACT_APP_SERVER_URL}/api/auth/login`, {
+        username: userName,
+        password: password,
+      })
+      .then((res) => {
+        if (res.status === 200) {
           setLoading(false);
           setLogged(true);
-          if(remember) {
-            setCookie("authToken", res.data['x-auth-token'], 1)
+          if (remember) {
+            setCookie("authToken", res.data["x-auth-token"], 1);
           }
         }
-      }).catch(err => {
-        console.log('ERROR', err);
-        setLoading(false);
       })
+      .catch((err) => {
+        console.log("ERROR", err);
+        setLoading(false);
+      });
 }
 
 const handleRememberMe = () => {

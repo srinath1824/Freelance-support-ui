@@ -104,44 +104,50 @@ function DeveloperDetaisDialog({
 
   const handleSubmit = () => {
     const valid = validation();
-    if(valid) {
-        setLoading(true);
-        if(Object.keys(dialogDetails).length === 0) {
-        axios.post(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/developer/createDeveloperDetails`, addDeveloper)
-            .then(res => {
-                setLoading(false);
-                setDeveloperDetailsData([
-                    ...developerDetailsData,
-                    addDeveloper
-                ]);
-                handleClose();
-                getDeveloperDetails();
-            }).catch(err => {
-                setLoading(false);
-                console.log(err);
-            })
-        } else {
-        axios.put(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/developer/updateDeveloperDetails/${id}`, addDeveloper)
-        .then(res => {
+    if (valid) {
+      setLoading(true);
+      if (Object.keys(dialogDetails).length === 0) {
+        axios
+          .post(
+            `${process.env.REACT_APP_SERVER_URL}/api/fs/developer/createDeveloperDetails`,
+            addDeveloper
+          )
+          .then((res) => {
             setLoading(false);
-            setDeveloperDetailsData([
-                ...developerDetailsData,
-                addDeveloper
-            ]);
+            setDeveloperDetailsData([...developerDetailsData, addDeveloper]);
             handleClose();
             getDeveloperDetails();
-        }).catch(err => {
+          })
+          .catch((err) => {
             setLoading(false);
             console.log(err);
-        })
-        }
-        }
+          });
+      } else {
+        axios
+          .put(
+            `${process.env.REACT_APP_SERVER_URL}/api/fs/developer/updateDeveloperDetails/${id}`,
+            addDeveloper
+          )
+          .then((res) => {
+            setLoading(false);
+            setDeveloperDetailsData([...developerDetailsData, addDeveloper]);
+            handleClose();
+            getDeveloperDetails();
+          })
+          .catch((err) => {
+            setLoading(false);
+            console.log(err);
+          });
+      }
+    }
   };
 
   const handleDeleteClick = () => {
     setLoading(true);
     axios
-      .delete(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/developer/deleteDeveloperDetails/${id}`)
+      .delete(
+        `${process.env.REACT_APP_SERVER_URL}/api/fs/developer/deleteDeveloperDetails/${id}`
+      )
       .then((res) => {
         setLoading(false);
         const data = [...developerDetailsData];

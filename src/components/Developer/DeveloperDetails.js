@@ -65,7 +65,9 @@ function DeveloperDetails() {
   const getDeveloperDetails = () => {
     setLoading(true);
     axios
-      .get(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/developer/getDeveloperDetails`)
+      .get(
+        `${process.env.REACT_APP_SERVER_URL}/api/fs/developer/getDeveloperDetails`
+      )
       .then((res) => {
         setLoading(false);
         const rows = res.data.map((data) =>

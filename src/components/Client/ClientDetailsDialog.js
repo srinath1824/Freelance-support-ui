@@ -94,44 +94,50 @@ function ClientDetailsDialog({
 
   const handleSubmit = () => {
     const valid = validation();
-    if(valid) {
-        setLoading(true);
-        if(Object.keys(dialogDetails).length === 0) {
-        axios.post(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/client/createClientDetails`, addClient)
-            .then(res => {
-                setLoading(false);
-                setClientDetailsData([
-                    ...clientDetailsData,
-                    addClient
-                ]);
-                handleClose();
-                getClientDetails();
-            }).catch(err => {
-                setLoading(false);
-                console.log(err);
-            })
-        } else {
-        axios.put(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/client/updateClientDetails/${id}`, addClient)
-        .then(res => {
+    if (valid) {
+      setLoading(true);
+      if (Object.keys(dialogDetails).length === 0) {
+        axios
+          .post(
+            `${process.env.REACT_APP_SERVER_URL}/api/fs/client/createClientDetails`,
+            addClient
+          )
+          .then((res) => {
             setLoading(false);
-            setClientDetailsData([
-                ...clientDetailsData,
-                addClient
-            ]);
+            setClientDetailsData([...clientDetailsData, addClient]);
             handleClose();
             getClientDetails();
-        }).catch(err => {
+          })
+          .catch((err) => {
             setLoading(false);
             console.log(err);
-        })
-        }
-        }
+          });
+      } else {
+        axios
+          .put(
+            `${process.env.REACT_APP_SERVER_URL}/api/fs/client/updateClientDetails/${id}`,
+            addClient
+          )
+          .then((res) => {
+            setLoading(false);
+            setClientDetailsData([...clientDetailsData, addClient]);
+            handleClose();
+            getClientDetails();
+          })
+          .catch((err) => {
+            setLoading(false);
+            console.log(err);
+          });
+      }
+    }
   };
 
   const handleDeleteClick = () => {
     setLoading(true);
     axios
-      .delete(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/client/deleteClientDetails/${id}`)
+      .delete(
+        `${process.env.REACT_APP_SERVER_URL}/api/fs/client/deleteClientDetails/${id}`
+      )
       .then((res) => {
         setLoading(false);
         const data = [...clientDetailsData];
