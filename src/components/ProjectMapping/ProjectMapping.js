@@ -58,6 +58,7 @@ function ProjectMapping() {
   const [unassignDeveloperId, setUnassignDeveloperId] = useState("");
   const [mappingDetails, setMappingDetails] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [developerUnmapping, setDeveloperUnmapping] = useState([]);
 
   useEffect(() => {
     setLoading(true);
@@ -114,6 +115,10 @@ function ProjectMapping() {
   const handleUnassignSelectChange = (e, val) => {
     if(val === 'client') {
       setUnassignClientId(e.target.value)
+      if(developerDetails && clientDetails){
+       const devloperData = developerDetails.find(val => val.clientId === e.target.value);
+       setDeveloperUnmapping([devloperData]);
+       }
     } else if (val === 'developer') {
       setUnassignDeveloperId(e.target.value)
     }
@@ -301,7 +306,7 @@ function ProjectMapping() {
                   onChange={(e) => handleUnassignSelectChange(e, 'developer')}
                   // error={error.status}
                 >
-                  {mappingDetails.map((data) => {
+                  {developerUnmapping.map((data) => {
                     return (
                       <MenuItem value={data.developerId}>
                         {data.developerName}
