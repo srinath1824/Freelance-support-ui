@@ -46,7 +46,7 @@ export default function DashboardChart() {
 
   useEffect(() => {
     axios
-      .get(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/paymentdetails/getPaymentDetails`)
+      .get(`${process.env.REACT_APP_SERVER_URL}/api/fs/paymentdetails/getPaymentDetails`)
       .then((res) => {
         setData(res.data);
       });

@@ -97,7 +97,7 @@ function ClientDetailsDialog({
     if(valid) {
         setLoading(true);
         if(Object.keys(dialogDetails).length === 0) {
-        axios.post(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/client/createClientDetails`, addClient)
+          axios.post(`${process.env.REACT_APP_SERVER_URL}/api/fs/client/createClientDetails`, addClient)
             .then(res => {
                 setLoading(false);
                 setClientDetailsData([
@@ -111,7 +111,7 @@ function ClientDetailsDialog({
                 console.log(err);
             })
         } else {
-        axios.put(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/client/updateClientDetails/${id}`, addClient)
+          axios.put(`${process.env.REACT_APP_SERVER_URL}/api/fs/client/updateClientDetails/${id}`, addClient)
         .then(res => {
             setLoading(false);
             setClientDetailsData([
@@ -131,7 +131,7 @@ function ClientDetailsDialog({
   const handleDeleteClick = () => {
     setLoading(true);
     axios
-      .delete(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/client/deleteClientDetails/${id}`)
+      .delete(`${process.env.REACT_APP_SERVER_URL}/api/fs/client/deleteClientDetails/${id}`)
       .then((res) => {
         setLoading(false);
         const data = [...clientDetailsData];

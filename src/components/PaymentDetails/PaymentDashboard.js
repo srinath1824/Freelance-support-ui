@@ -165,7 +165,7 @@ function PaymentDashboard() {
         if (user === "Client") {
           axios
             .put(
-              `https://${process.env.REACT_APP_SERVER_URL}/api/fs/client/clientPaymentDetails/${paymentId}`,
+              `${process.env.REACT_APP_SERVER_URL}/api/fs/client/clientPaymentDetails/${paymentId}`,
               details
             )
             .then((res) => {
@@ -182,7 +182,7 @@ function PaymentDashboard() {
         } else if (user === "Developer") {
           axios
             .put(
-              `https://${process.env.REACT_APP_SERVER_URL}/api/fs/developer/developerPaymentDetails/${paymentId}`,
+              `${process.env.REACT_APP_SERVER_URL}/api/fs/developer/developerPaymentDetails/${paymentId}`,
               details
             )
             .then((res) => {

@@ -95,7 +95,7 @@ function SignIn({ setLogged }) {
 
 const handleSignIn = () => {
   setLoading(true);
-    axios.post(`https://${process.env.REACT_APP_SERVER_URL}/api/auth/login`, {"username": userName, "password": password})
+  axios.post(`${process.env.REACT_APP_SERVER_URL}/api/auth/login`, { "userName": userName, "password": password })
       .then(res => {
         if(res.status === 200) {
           setLoading(false);

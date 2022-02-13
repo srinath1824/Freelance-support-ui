@@ -62,7 +62,7 @@ function ClientDetails() {
   const getClientDetails = () => {
     setLoading(true);
     axios
-      .get(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/client/getClientDetails`)
+      .get(`${process.env.REACT_APP_SERVER_URL}/api/fs/client/getClientDetails`)
       .then((res) => {
         setLoading(false);
         const rows = res.data.map((data) =>

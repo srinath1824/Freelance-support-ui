@@ -17,7 +17,7 @@ function DeveloperConsultantGraph() {
   useEffect(() => {
     axios
       .get(
-        `https://${process.env.REACT_APP_SERVER_URL}/api/fs/paymentdetails/getClientDashboradDetails`
+        `${process.env.REACT_APP_SERVER_URL}/api/fs/paymentdetails/getClientDashboradDetails`
       )
       .then((res) => {
         setUserData(res.data);

@@ -107,7 +107,7 @@ function DeveloperDetaisDialog({
     if(valid) {
         setLoading(true);
         if(Object.keys(dialogDetails).length === 0) {
-        axios.post(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/developer/createDeveloperDetails`, addDeveloper)
+          axios.post(`${process.env.REACT_APP_SERVER_URL}/api/fs/developer/createDeveloperDetails`, addDeveloper)
             .then(res => {
                 setLoading(false);
                 setDeveloperDetailsData([
@@ -121,7 +121,7 @@ function DeveloperDetaisDialog({
                 console.log(err);
             })
         } else {
-        axios.put(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/developer/updateDeveloperDetails/${id}`, addDeveloper)
+          axios.put(`${process.env.REACT_APP_SERVER_URL}/api/fs/developer/updateDeveloperDetails/${id}`, addDeveloper)
         .then(res => {
             setLoading(false);
             setDeveloperDetailsData([
@@ -141,7 +141,7 @@ function DeveloperDetaisDialog({
   const handleDeleteClick = () => {
     setLoading(true);
     axios
-      .delete(`https://${process.env.REACT_APP_SERVER_URL}/api/fs/developer/deleteDeveloperDetails/${id}`)
+      .delete(`${process.env.REACT_APP_SERVER_URL}/api/fs/developer/deleteDeveloperDetails/${id}`)
       .then((res) => {
         setLoading(false);
         const data = [...developerDetailsData];

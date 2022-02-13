@@ -7,9 +7,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 npm install
 npm start
 
-.env
-REACT_APP_SERVER_URL = freelance-support-server.herokuapp.com
+# To run in dev in .env
+REACT_APP_SERVER_URL = https://freelance-support-ui.herokuapp.com
 
-
-https://freelance-support-ui.herokuapp.com/
+# To run in Local in .env
+REACT_APP_SERVER_URL = http://localhost:4000
 
